@@ -1,5 +1,7 @@
 #include "dlgauto.h"
 #include "ui_dlgauto.h"
+#include "xlsx/xlsxdocument.h"
+#include "xlsx/xlsxcellreference.h"
 
 dlgAuto::dlgAuto(SerialThread* pSer,QWidget *parent) :
     QDialog(parent),
@@ -288,13 +290,95 @@ void dlgAuto::on_btnPort_clicked()
     std::uniform_real_distribution<> disX(0, 10.0f); // 定義範圍
     std::uniform_real_distribution<> disY(0, 20.0f); // 定義範圍
 
-    QVector<double> vX,vY;
+    m_lockXY.lockForWrite();
+    m_vX.clear();
+    m_vY.clear();
     for(int i=0;i<100;i++)
     {
-        vX.push_back(disX(gen));
-        vY.push_back(disY(gen));
+        m_vX.push_back(disX(gen));
+        m_vY.push_back(disY(gen));
     }
 
-    DrawLiveData(0,vX,vY);
-
+    DrawLiveData(0,m_vX,m_vY);
+    m_lockXY.unlock();
 }
+
+void dlgAuto::on_btnSaveJpg_clicked()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, "SaveJPG", "", "Image(*.jpg);;All (*)");
+    bool bOK=false;
+    if (!filePath.isEmpty())
+    {
+        bOK=ui->vCustomPlot->saveJpg(filePath);
+    }
+    if(!bOK)
+        QMessageBox::critical(nullptr, "Warming", QString("SaveFailed:"), QMessageBox::Ok);
+}
+
+void dlgAuto::on_btnSaveXLSX_clicked()
+{
+    QString filePath = QFileDialog::getSaveFileName(this,
+        tr("Export File"),
+        "",
+        tr("Excel Files (*.XLSX *.xlsx);;All Files (*)"));
+    int ret=-99;
+    if (!filePath.isEmpty())
+    {
+        ret=ExportExcel(filePath);
+    }
+    if(ret!=0)
+        QMessageBox::critical(nullptr, "Warming", QString("SaveFailed:"), QMessageBox::Ok);
+}
+
+
+
+int  dlgAuto::ExportExcel(QString strFile)
+{
+    int ret=0;
+
+    if(!m_lockXY.tryLockForWrite())
+        return -2;
+
+    if(m_vY.size()<=0 || m_vX.size()<=0 || m_vY.size()!=m_vX.size())
+    {
+        m_lockXY.unlock();
+        return -3;
+    }
+
+    // 創建一個QXlsx::Document對象
+    QXlsx::Document xlsx;
+
+    // 在工作表中寫入數據
+    QTableWidgetItem* pItem;
+    QXlsx::Format format;
+    int nRow=m_vY.size();
+    int nCol=3;
+
+    format.setFontColor(Qt::red);
+    QXlsx::CellReference cell1(1,1);
+    xlsx.write(cell1,"");
+    QXlsx::CellReference cellX(1,2);
+    xlsx.write(cellX, ui->vCustomPlot->xAxis->label());
+    QXlsx::CellReference cellY(1,3);
+    xlsx.write(cellY, ui->vCustomPlot->yAxis->label());
+
+    for(int i=0;i<nRow;i++)
+    {
+        QXlsx::CellReference cId(i+2,1);
+        xlsx.write(cId,i+1);
+
+        QXlsx::CellReference cX(i+2,2);
+        xlsx.write(cX,m_vY[i]);
+
+        QXlsx::CellReference cY(i+2,3);
+        xlsx.write(cY,m_vY[i]);
+
+    }
+
+    // 保存Excel檔案
+    xlsx.saveAs(strFile);
+
+    m_lockXY.unlock();
+    return ret;
+}
+

@@ -52,9 +52,14 @@ private slots:
 
     void on_btnPort_clicked();
 
+    void on_btnSaveJpg_clicked();
+
+    void on_btnSaveXLSX_clicked();
+
 private:
     void ACycle();
     void RCycle();
+    int ExportExcel(QString strFile);
 
 private:
     Ui::dlgAuto *ui;
@@ -66,6 +71,8 @@ private:
 
     bool        m_bInitional;
 
+    QReadWriteLock  m_lockXY;
+    QVector<double> m_vX,m_vY;
 };
 
 #endif // DLGAUTO_H

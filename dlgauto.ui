@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>910</width>
-    <height>443</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -37,7 +37,7 @@
      <x>10</x>
      <y>10</y>
      <width>321</width>
-     <height>121</height>
+     <height>171</height>
     </rect>
    </property>
   </widget>
@@ -45,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>200</y>
+     <y>260</y>
      <width>181</width>
      <height>71</height>
     </rect>
@@ -58,7 +58,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>260</y>
+     <y>320</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -71,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>360</y>
+     <y>420</y>
      <width>181</width>
      <height>71</height>
     </rect>
@@ -84,7 +84,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>310</y>
+     <y>370</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -94,7 +94,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>140</y>
+     <y>200</y>
      <width>321</width>
      <height>41</height>
     </rect>
@@ -110,7 +110,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>380</y>
+     <y>440</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -123,7 +123,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>200</y>
+     <y>260</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -136,7 +136,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>320</y>
+     <y>380</y>
      <width>131</width>
      <height>51</height>
     </rect>
@@ -218,6 +218,48 @@
      <width>551</width>
      <height>371</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkEnable">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>450</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enable</string>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSaveJpg">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>440</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SaveJpg</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSaveXLSX">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>440</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SaveXLSX</string>
    </property>
   </widget>
  </widget>

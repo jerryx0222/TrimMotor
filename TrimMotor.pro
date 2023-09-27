@@ -42,4 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    icon32.png
+    icon32.png \
+    xlsx/qtxlsx.pri
+
+include("xlsx/qtxlsx.pri")
